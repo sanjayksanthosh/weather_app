@@ -5,10 +5,39 @@ import 'package:weather_app/services/api.dart';
 import 'package:weather_app/widgets/myText.dart';
 
 import '../constants/screenUtils.dart';
+import '../models/weatheModel.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+
+
+
+}
+
+class _HomePageState extends State<HomePage> {
+   Weather? model;
+
+
+   @override
+   void initState() {
+     super.initState();
+     fetchData();
+   }
+
+  Future<void> fetchData() async {
+    try {
+      Weather fetchedModel = await WeatherData.fetchData();
+      setState(() {
+        model = fetchedModel;
+      });
+      print('country : ${model?.location.country}');
+    } catch (e) {
+      print('Error fetching data: $e');
+    }
+  }
   @override
   Widget build(BuildContext context) {
     double width = ScreenUtil.screenWidth(context);
@@ -27,7 +56,7 @@ class HomePage extends StatelessWidget {
               Column(
                 children: [
                   MyText(
-                    text: 'Kochi',
+                    text: model?.location.country,
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
                   ),
@@ -63,7 +92,6 @@ class HomePage extends StatelessWidget {
               ),
               ElevatedButton(
                   onPressed: () {
-                    fetchData();
                   },
                   child: MyText(
                     text: 'Get Data',
