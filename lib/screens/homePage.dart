@@ -56,24 +56,24 @@ class _HomePageState extends State<HomePage> {
               Column(
                 children: [
                   MyText(
-                    text: model?.location.country,
+                    text: model?.location.name,
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
                   ),
                   MyText(text: 'Today'),
                 ],
               ),
-              Image.asset(
-                'assets/icons/cloudy.png',
-                width: 100,
-                height: 100,
+              Image.network(
+                "http:"+model!.current.condition.icon,
+                width: 150,
+                height: 150,fit: BoxFit.cover,
               ),
               Text(
-                '23',
+                model!.current.feelslikeC.toString(),
                 style: GoogleFonts.notoSans(
                     fontSize: 100, fontWeight: FontWeight.bold),
               ),
-              Text('Mostly cloudy', style: GoogleFonts.notoSans(fontSize: 30)),
+              Text(model!.current.condition.text, style: GoogleFonts.notoSans(fontSize: 30)),
               Column(
                 children: [
                   Text('Wind', style: GoogleFonts.notoSans()),
@@ -85,17 +85,17 @@ class _HomePageState extends State<HomePage> {
                       SizedBox(
                         width: 20,
                       ),
-                      Text('9m/s'),
+                      Text(model!.current.gustKph.toString()+'kph'),
                     ],
                   ),
                 ],
               ),
-              ElevatedButton(
-                  onPressed: () {
-                  },
-                  child: MyText(
-                    text: 'Get Data',
-                  )),
+              // ElevatedButton(
+              //     onPressed: () {
+              //     },
+              //     child: MyText(
+              //       text: 'Get Data',
+              //     )),
             ]),
       )),
     );
